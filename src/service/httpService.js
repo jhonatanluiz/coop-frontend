@@ -4,7 +4,7 @@ import Loader from "./loaderService";
 import LocalStorageService from "./localStorageService"
 
 const api = axios.create({
-    baseURL: 'http://localhost:8080/api'//'http://ec2-54-94-22-216.sa-east-1.compute.amazonaws.com:8080/api'
+    baseURL: 'http://ec2-54-94-22-216.sa-east-1.compute.amazonaws.com:8080/api'
   });
   
   api.interceptors.request.use(async config => {
