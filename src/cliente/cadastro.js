@@ -41,6 +41,9 @@ export default class CadastroClienteComponent extends Component {
         CoopService.getCliente(this.props.match.params.id)
           .then(response => {
              this.setState(response.data)
+             this.setState({
+                 nuCep: response.data.endereco.nuCep
+             });
           })
           .catch(function (error) {
             console.log(error);
@@ -49,22 +52,21 @@ export default class CadastroClienteComponent extends Component {
     }
 
     loadAddress(e) {
+
         this.setState({
            nuCep: e.target.value
-        });
-
-        if(this.state.nuCep.length === 8) {
-            CoopService.cep(this.state.nuCep).then( ( response) => {
-              this.setState({
-                  endereco: response.data
-              })
-              console.log(this.state.endereco)
-            })
-        }
+        }, () => {
+            if(this.state.nuCep.length === 8) {
+                CoopService.cep(this.state.nuCep).then( ( response) => {
+                  this.setState({
+                      endereco: response.data
+                  },() => {console.log(this.state)})
+                })
+            }
+        }) 
     }
 
-    inputUpdate(e) {
-    
+    inputUpdate(e) {    
         this.setState({ 
            [e.target.id]: e.target.value 
         })
@@ -114,14 +116,12 @@ export default class CadastroClienteComponent extends Component {
         };
 
         if(obj.id === null) {
-            CoopService.saveClient( obj)
-            .then(() => {
+            CoopService.saveClient( obj).then(() => {
                 window.alert("Cadastro realizado com sucesso.");
                 window.location = "/list";
             });
         } else {
-            CoopService.editClient(this.state)
-            .then(() => {
+            CoopService.editClient(this.state).then(() => {
                 window.alert("Cadastro alterado com sucesso.");
                 window.location = "/list";
             });
@@ -239,7 +239,7 @@ export default class CadastroClienteComponent extends Component {
                                 id="nuCep"
                                 className="form-control" 
                                 value={this.state.nuCep}
-                                onChange={this.loadAddress}
+                                onChange={(e) => {this.loadAddress(e)}}
                                 />
                             </div>
                         </div>
