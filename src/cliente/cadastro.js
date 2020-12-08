@@ -115,6 +115,16 @@ export default class CadastroClienteComponent extends Component {
           telefones: this.state.telefones
         };
 
+        if(obj.emails.length == 0) {
+            window.alert("Preencha ao menos um email para o cadastro!");
+            return;
+        }
+
+        if(obj.telefones.length === 0) {
+            window.alert("Preencha ao menos um telefone para o cadastro!");
+            return;
+        }
+
         if(obj.id === null) {
             CoopService.saveClient( obj).then(() => {
                 window.alert("Cadastro realizado com sucesso.");
