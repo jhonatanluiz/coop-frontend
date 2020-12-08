@@ -56,8 +56,8 @@ export default class CadastroClienteComponent extends Component {
         this.setState({
            nuCep: e.target.value
         }, () => {
-            if(this.state.nuCep.length === 8) {
-                CoopService.cep(this.state.nuCep).then( ( response) => {
+            if(this.state.nuCep.length === 10) {
+                CoopService.cep(this.state.nuCep.replace(".", "").replace("-", "")).then( ( response) => {
                   this.setState({
                       endereco: response.data
                   },() => {console.log(this.state)})
@@ -66,7 +66,7 @@ export default class CadastroClienteComponent extends Component {
         }) 
     }
 
-    inputUpdate(e) {    
+    inputUpdate(e) {
         this.setState({ 
            [e.target.id]: e.target.value 
         })
@@ -141,6 +141,7 @@ export default class CadastroClienteComponent extends Component {
                                 <input 
                                 type="text" 
                                 id="noCliente"
+                                required
                                 className="form-control" 
                                 value={this.state.noCliente}
                                 onChange={this.inputUpdate}
@@ -152,6 +153,7 @@ export default class CadastroClienteComponent extends Component {
                                 <label>CPF: </label>
                                 <MaskedInput mask="111.111.111-11" 
                                 id="nuCpf"
+                                required
                                 className="form-control"
                                 value={this.state.nuCpf}
                                 onChange={this.inputUpdate}
@@ -235,8 +237,9 @@ export default class CadastroClienteComponent extends Component {
                         <div className="form-group">
                             <label><b>CEP:</b>  </label>
                             <div className="form-group">
-                                <input type="text" 
+                                <MaskedInput mask="11.111-111" 
                                 id="nuCep"
+                                required
                                 className="form-control" 
                                 value={this.state.nuCep}
                                 onChange={(e) => {this.loadAddress(e)}}
