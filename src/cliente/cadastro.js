@@ -40,10 +40,11 @@ export default class CadastroClienteComponent extends Component {
         if(this.props.match.params.id !== undefined) {
         CoopService.getCliente(this.props.match.params.id)
           .then(response => {
+              response.data.nuCep = response.data.endereco.nuCep;
+              console.log(response.data.nuCep)
              this.setState(response.data)
-             this.setState({
-                 nuCep: response.data.endereco.nuCep
-             });
+            
+             console.log(this.state)
           })
           .catch(function (error) {
             console.log(error);
@@ -247,7 +248,7 @@ export default class CadastroClienteComponent extends Component {
                         <div className="form-group">
                             <label><b>CEP:</b>  </label>
                             <div className="form-group">
-                                <MaskedInput mask="11.111-111" 
+                                <input type="text" 
                                 id="nuCep"
                                 required
                                 className="form-control" 
